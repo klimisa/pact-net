@@ -22,7 +22,7 @@ namespace Provider.Api.Web.Tests
         public void EnsureEventApiHonoursPactWithConsumer()
         {
             //Arrange
-            const string serviceUri = "http://localhost:9222";
+            const string serviceUri = "https://localhost:9222";
             var config = new PactVerifierConfig
             {
                 Outputters = new List<IOutput>

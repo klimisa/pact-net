@@ -16,12 +16,18 @@ namespace PactNet.Core
         public MockProviderHostConfig(int port, bool enableSsl, string consumerName, string providerName, PactConfig config, IPAddress host)
         {
             var logFile = $"{config.LogDir}{providerName.ToLowerSnakeCase()}_mock_service.log";
-            var sslOption = enableSsl ? " --ssl" : string.Empty;
+            var sslOption = enableSsl ? " --ssl" : " --no-ssl";
             var hostOption = host == IPAddress.Any ? " --host=0.0.0.0" : string.Empty;
             var monkeyPatchOption = !string.IsNullOrEmpty(config?.MonkeyPatchFile) ? $" --monkeypatch=\"${config.MonkeyPatchFile}\"" : string.Empty;
 
             Script = "pact-mock-service";
-            Arguments = $"-p {port} -l \"{FixPathForRuby(logFile)}\" --pact-dir \"{FixPathForRuby(config.PactDir)}\" --pact-specification-version \"{config.SpecificationVersion}\" --consumer \"{consumerName}\" --provider \"{providerName}\"{sslOption}{hostOption}{monkeyPatchOption}";
+            Arguments = $"-p {port} -l \"{FixPathForRuby(logFile)}\" " +
+                        $"--pact-dir \"{FixPathForRuby(config.PactDir)}\" " +
+                        $"--pact-specification-version \"{config.SpecificationVersion}\" " +
+                        $"--consumer \"{consumerName}\" " +
+                        $"--provider \"{providerName}\"{sslOption}{hostOption}{monkeyPatchOption} " +
+                        $"--sslcert={FixPathForRuby("C:\\akli\\dev\\Pact\\cert\\localhost.crt")} " +
+                        $"--sslkey={FixPathForRuby("C:\\akli\\dev\\Pact\\cert\\localhost.crt")}";
             WaitForExit = false;
             Outputters = config?.Outputters;
         }

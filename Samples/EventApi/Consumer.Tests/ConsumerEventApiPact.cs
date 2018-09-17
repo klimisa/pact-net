@@ -11,8 +11,8 @@ namespace Consumer.Tests
         public IPactBuilder PactBuilder { get; }
         public IMockProviderService MockProviderService { get; }
 
-        public int MockServerPort => 9222;
-        public string MockProviderServiceBaseUri => $"http://localhost:{MockServerPort}";
+        public int MockServerPort => 9223;
+        public string MockProviderServiceBaseUri => $"https://localhost:{MockServerPort}";
 
         public ConsumerEventApiPact()
         {
